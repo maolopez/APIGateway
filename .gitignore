@@ -1,3 +1,11 @@
+# Local .myenv python env directories
+.env/
+myenv/
+.myenv/
+venv/
+.venv/
+myenvsource/
+
 # Local .terraform directories
 .terraform/
 
