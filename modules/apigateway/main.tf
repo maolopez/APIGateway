@@ -32,7 +32,7 @@ resource "aws_api_gateway_method" "api_method" {
 
   # Use module outputs for dependency
   depends_on = [
-    module.lambda_authorizer.aws_lambda_function.auth_lambda,
+    module.lambda_authorizer.aws_lambda_function,
     aws_api_gateway_authorizer.my_auth
   ]
 }
