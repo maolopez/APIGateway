@@ -17,3 +17,8 @@ variable "policy_name" {
   type        = string
   description = "The name of the policy for the Role Policy for Lambda authorizer function"
 }
+
+variable "api_gateway_execution_arn" {
+  type = string
+  description = "pointing to module/apigateway output api_gateway_execution_arn"
+}
