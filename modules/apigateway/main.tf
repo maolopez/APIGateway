@@ -51,5 +51,5 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda_authorizer.lambda_function_arn
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigateway_rest_api.my_api.execution_arn}/*/*"
+  source_arn    = "${aws_api_gateway_rest_api.my_api.execution_arn}/*/*"
 }
