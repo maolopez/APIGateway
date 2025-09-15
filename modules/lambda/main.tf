@@ -16,7 +16,7 @@ resource "aws_lambda_function" "auth_lambda" {
   runtime       = "python3.9"    # Adjust this to your preferred runtime
 
   # Path to the deployment package (a .zip file)
-  filename         = "./package.zip"
+  filename         = "package.zip"
   source_code_hash = filebase64sha256("../modules/lambda/package.zip")
 
 }
