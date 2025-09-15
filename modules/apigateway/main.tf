@@ -9,7 +9,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 resource "aws_api_gateway_rest_api" "my_api" {
-  name        = var.my_api
+  name        = var.api_name
   region      = var.region
   description = "An my API with custom authorization."
   endpoint_configuration {
@@ -18,28 +18,28 @@ resource "aws_api_gateway_rest_api" "my_api" {
 }
 
 resource "aws_api_gateway_resource" "api_resource" {
-  rest_api_id = aws_apigateway_rest_api.my_api.id
-  parent_id   = aws_apigateway_rest_api.my_api.root_resource_id #make it a variable
+  rest_api_id = aws_api_gateway_rest_api.my_api.id
+  parent_id   = aws_api_gateway_rest_api.my_api.root_resource_id #make it a variable
   path_part   = "doOrder"
 }
 
 resource "aws_api_gateway_method" "api_method" {
-  rest_api_id   = aws_apigateway_rest_api.my_api.id
-  resource_id   = aws_apigateway_resource.api_resource.id
+  rest_api_id   = aws_api_gateway_rest_api.my_api.id
+  resource_id   = aws_api_gateway_resource.api_resource.id
   http_method   = "POST"
   authorization = "CUSTOM"
-  authorizer_id = aws_apigateway_authorizer.my_auth.id
+  authorizer_id = aws_api_gateway_authorizer.my_auth.id
 
   # Use module outputs for dependency
   depends_on = [
     module.lambda_authorizer.aws_lambda_function.auth_lambda,
-    aws_apigateway_authorizer.my_auth
+    aws_api_gateway_authorizer.my_auth
   ]
 }
 
 resource "aws_api_gateway_authorizer" "my_auth" {
   name                             = var.authorizer_name
-  rest_api_id                      = aws_apigateway_rest_api.my_api.id
+  rest_api_id                      = aws_api_gateway_rest_api.my_api.id
   authorizer_uri                   = module.lambda_authorizer.aws_lambda_function.auth_lambda.invoke_arn
   identity_source                  = "method.request.header.Authorization"
   type                             = "TOKEN"
