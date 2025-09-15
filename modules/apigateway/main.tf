@@ -37,17 +37,19 @@ resource "aws_api_gateway_method" "api_method" {
   ]
 }
 
+#Gateway Lambda authorizer, the URI should be formatted as: arn:aws:apigateway:<region>:lambda:path/2015-03-31/functions/<lambda_arn>/invocations
 resource "aws_api_gateway_authorizer" "my_auth" {
-  name                             = var.authorizer_name
-  rest_api_id                      = aws_api_gateway_rest_api.my_api.id
-  authorizer_uri                   = "${var.lambda_authorizer_arn}/invocations"
+  name        = var.authorizer_name
+  rest_api_id = aws_api_gateway_rest_api.my_api.id
+  #authorizer_uri                   = "${var.lambda_authorizer_arn}/invocations"
+  authorizer_uri                   = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${var.lambda_authorizer_arn}/invocations"
   identity_source                  = "method.request.header.Authorization"
   type                             = "TOKEN"
   authorizer_result_ttl_in_seconds = 300
 }
 
 resource "aws_lambda_permission" "allow_api_gateway" {
-  statement_id  = "AllowAPIGatewayInvoke" # "AllowExecutionFromAPIGateway"
+  statement_id  = "AllowExecutionFromAPIGateway" #  "AllowAPIGatewayInvoke" already exists
   action        = "lambda:InvokeFunction"
   function_name = var.lambda_authorizer_arn
   principal     = "apigateway.amazonaws.com"

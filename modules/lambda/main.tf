@@ -13,7 +13,7 @@ resource "aws_lambda_function" "auth_lambda" {
   function_name = var.function_name
   role          = aws_iam_role.lambda_execution_role.arn
   handler       = "return_auth.lambda_handler" #  The handler is expressed in the format filename.function_name
-  runtime       = "python3.9"    # Adjust this to your preferred runtime
+  runtime       = "python3.9"                  # Adjust this to your preferred runtime
 
   # Path to the deployment package (a .zip file)
   filename         = "../modules/lambda/package.zip"

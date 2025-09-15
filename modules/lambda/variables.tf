@@ -19,6 +19,6 @@ variable "policy_name" {
 }
 
 variable "api_gateway_execution_arn" {
-  type = string
+  type        = string
   description = "pointing to module/apigateway output api_gateway_execution_arn"
 }

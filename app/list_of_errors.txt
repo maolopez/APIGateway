@@ -1,0 +1,20 @@
+module.api.aws_lambda_permission.allow_api_gateway: Still creating... [04m50s elapsed]
+╷
+│ Error: creating API Gateway Authorizer (auth-fe5kz): operation error API Gateway: CreateAuthorizer, https response error StatusCode: 400, RequestID: 
+f98a963d-c900-404e-be72-d3a8b0953e58, 
+BadRequestException: Invalid Authorizer URI: arn:aws:lambda:us-east-1:967927620777:function:lambda-fe5kz/invocations. 
+Authorizer URI should be a valid API Gateway ARN that represents a Lambda function invocation.
+│ 
+│   with module.api.aws_api_gateway_authorizer.my_auth,
+│   on ../modules/apigateway/main.tf line 40, in resource "aws_api_gateway_authorizer" "my_auth":
+│   40: resource "aws_api_gateway_authorizer" "my_auth" {
+│ 
+╵
+╷
+│ Error: adding Lambda Permission (arn:aws:lambda:us-east-1:967927620777:function:lambda-fe5kz/AllowAPIGatewayInvoke): 
+operation error Lambda: AddPermission, https response error StatusCode: 409, RequestID: 3c5a8b6c-5178-4270-b6be-5a0ffe7f051e, ResourceConflictException: 
+The statement id (AllowAPIGatewayInvoke) provided already exists. Please provide a new statement id, or remove the existing statement.
+│ 
+│   with module.api.aws_lambda_permission.allow_api_gateway,
+│   on ../modules/apigateway/main.tf line 49, in resource "aws_lambda_permission" "allow_api_gateway":
+│   49: resource "aws_lambda_permission" "allow_api_gateway" {

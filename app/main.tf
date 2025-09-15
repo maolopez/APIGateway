@@ -15,18 +15,18 @@ module "cognito" {
 }
 
 module "api" {
-  source          = "../modules/apigateway"
-  region          = local.region
-  api_name        = local.api_name
-  authorizer_name = local.authorizer_name
+  source                = "../modules/apigateway"
+  region                = local.region
+  api_name              = local.api_name
+  authorizer_name       = local.authorizer_name
   lambda_authorizer_arn = module.lambda_authorizer.lambda_function_arn
 }
 
 module "lambda_authorizer" {
-  source        = "../modules/lambda"
-  region        = local.region
-  function_name = local.function_name
-  rp_name       = local.rp_name
-  policy_name   = local.policy_name
+  source                    = "../modules/lambda"
+  region                    = local.region
+  function_name             = local.function_name
+  rp_name                   = local.rp_name
+  policy_name               = local.policy_name
   api_gateway_execution_arn = module.api.api_gateway_execution_arn
 }
