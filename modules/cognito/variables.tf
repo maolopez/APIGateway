@@ -17,3 +17,8 @@ variable "username" {
   type        = string
   description = "The user's email"
 }
+
+variable "domain" {
+  type        = string
+  description = "Your domain"
+}
