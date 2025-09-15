@@ -40,16 +40,16 @@ resource "aws_api_gateway_method" "api_method" {
 resource "aws_api_gateway_authorizer" "my_auth" {
   name                             = var.authorizer_name
   rest_api_id                      = aws_api_gateway_rest_api.my_api.id
-  authorizer_uri                   = module.lambda_authorizer.aws_lambda_function.auth_lambda.invoke_arn
+  authorizer_uri                   = "${module.lambda_authorizer.lambda_function_arn}/invocations"
   identity_source                  = "method.request.header.Authorization"
   type                             = "TOKEN"
   authorizer_result_ttl_in_seconds = 300
 }
 
 resource "aws_lambda_permission" "allow_api_gateway" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPIGatewayInvoke" # "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda_authorizer.aws_lambda_function.auth_lambda.function_name
+  function_name = module.lambda_authorizer.lambda_function_arn
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigateway_rest_api.my_api.execution_arn}/*/*"
 }
