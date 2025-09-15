@@ -15,14 +15,14 @@ module "cognito" {
 }
 
 module "api" {
-  source          = "../apigateway"
+  source          = "../modules/apigateway"
   region          = local.region
   api_name        = local.api_name
   authorizer_name = local.authorizer_name
 }
 
 module "lambda_authorizer" {
-  source        = "../lambda"
+  source        = "../modules/lambda"
   region        = local.region
   function_name = local.function_name
   rp_name       = local.rp_name
